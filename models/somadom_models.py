@@ -232,10 +232,35 @@ class Reservation(db.Model):
     dateCancelled = db.Column(db.DATE, nullable=True)
     refundApplied = db.Column(db.BOOLEAN, nullable=True)
     
+
+    @classmethod
+    def find_by_id(cls, user_id:int, dome_id:int) ->None:
+        return cls.query.filter_by(userId=user_id,domeId=dome_id).first()
+
     def save_to_db(self) -> None:
         db.session.add(self)
         db.session.commit()
-        
+    
+    def json_fmt(self):
+        return {
+            "reservationId": self.reservationId,
+            "domeId": self.domeId,
+            "userId": self.userId,
+            "contentId": self.contentId,
+            "resDate":self.resDate,
+            "startTime":self.startTime,
+            "duration":self.duration,
+            "pricePaid":self.pricePaid,
+            "currency":self.currency,
+            "isCancelled":self.isCancelled,
+            "dateCancelled":self.dateCancelled,
+            "refundApplied":self.refundApplied,
+        }
+    
+    
+
+
+     
 class Session(db.Model):
     
     __tablename__ = 'session'
@@ -258,6 +283,24 @@ class Session(db.Model):
     @classmethod
     def find_by_id(cls, _id: int) -> "Session":
         return cls.query.filter_by(userId=_id).all()
+    
+    @classmethod
+    def update_session_data(cls,new_session_data:dict):
+        _id =new_session_data['userid']
+        session_data=cls.query.filter_by(sessionId=_id).first()
+        session_data.completed=new_session_data['completed']
+        session_data.interrupts=new_session_data['interrupts']
+        session_data.domeRating=new_session_data['domeRating']
+        session_data.domeFeedback=new_session_data['domeFeedback']
+        session_data.interrupts=new_session_data['interrupts']
+        session_data.contentRating=new_session_data['contentRating']
+        session_data.contentRating=new_session_data['contentRating']
+        db.session.commit()
+        return session_data
+
+    def save_to_db(self) -> None:
+        db.session.add(self)
+        db.session.commit()
 
     @classmethod
     def find_session_in_pastdays(cls, _id: int,past_days: int) -> "Session":

@@ -79,7 +79,24 @@ class UserModel(db.Model):
         db.session.delete(self)
         db.session.commit()
     
-    def update_user(self) ->None:
-        db.session.update(self)
+    @classmethod
+    def update_user_data(cls,new_user_data:dict):
+        _id =new_user_data['userid']
+        user_data=cls.query.filter_by(userid=_id).first()
+        user_data.email=new_user_data.get('email',None)
+        user_data.displayName=new_user_data.get('displayName',None)
+        user_data.headline=new_user_data.get('headline',None)
+        user_data.firstName=new_user_data.get('firstName',None)
+        user_data.middleInitial=new_user_data.get('middleInitial',None)
+        user_data.lastName=new_user_data.get('lastName',None)
+        user_data.suffix=new_user_data.get('suffix',None)
+        user_data.phone=new_user_data.get('phone',None)
+        user_data.address1=new_user_data.get('address1',None)
+        user_data.address2=new_user_data.get('address2',None)
+        user_data.city=new_user_data.get('city',None)
+        user_data.state=new_user_data.get('state',None)
+        user_data.zip=new_user_data.get('zip',None)
+        user_data.birthDate=new_user_data.get('birthDate',None)
         db.session.commit()
-
+        return user_data
+        

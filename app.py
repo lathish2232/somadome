@@ -18,7 +18,8 @@ from models.mood_tracker import Songs
 from models.somadom_models import Tier,Category,Content
 from resources.user import UserRegister, UserLogin, UserLogout, User, TokenRefresh
 
-from resources.somadome_resource import GetSessionHistory,GetSessionMetrics,GetContent,GetDomAvailability,FindDoms
+from resources.somadome_resource import CreateReservation,GetReservation,updateReservation,\
+    InsertSessionData, GetSessionHistory,GetSessionMetrics,GetContent,GetDomAvailability,FindDoms
 
 app = Flask(__name__)
 
@@ -86,12 +87,16 @@ api.add_resource(User, "/user/profile")
 api.add_resource(UserLogin, "/login")
 api.add_resource(TokenRefresh, "/refresh")
 api.add_resource(UserLogout, "/logout")
+api.add_resource(InsertSessionData, "/session/insert")
 api.add_resource(GetSessionHistory, "/session/history") #get Session history
 api.add_resource(GetSessionMetrics, "/session/metrics") #get Session Metrics
 api.add_resource(GetContent, "/getcontent")#get content 
 api.add_resource(GetDomAvailability,"/dome/availability") # getdome availability
 api.add_resource(FindDoms,"/dome/find") # find public domes 
-#api.add_resource(CreateReservation,"/reservation")
+api.add_resource(CreateReservation,"/reservation/insert")
+api.add_resource(GetReservation,"/reservation/get")
+api.add_resource(updateReservation,"/reservation/update")
+
 
 
 

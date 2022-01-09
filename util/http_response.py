@@ -9,7 +9,7 @@ def dome_not_found():
 def user_not_found():
      return {"code": 4000, "message": "No such user"}
 
-def success_response(method=None,result=None):
+def success_response(result=None):
     # result must be dict it's a user data.
     return {"code":200,
             "jsonrpc":"2.0", 
